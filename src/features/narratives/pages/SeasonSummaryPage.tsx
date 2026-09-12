@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import api from "../api/api";
-import BackButton from "../components/BackButton";
+import BackButton from "../../../shared/navigation/BackButton";
 
-import type { Narrative } from "../types/models";
+import { getSeasonNarrative } from "../api/narrativesApi";
+import type { Narrative } from "../types";
 
 function SeasonSummaryPage() {
   const { seasonId } = useParams<{ seasonId: string }>();
@@ -12,13 +12,12 @@ function SeasonSummaryPage() {
   const [summary, setSummary] = useState<Narrative | null>(null);
 
   useEffect(() => {
-    if (!seasonId) return;
+  if (!seasonId) return;
 
-    api
-      .get<Narrative>(`/v1/seasons/${seasonId}/narrative`)
-      .then((res) => setSummary(res.data))
-      .catch(() => setSummary(null));
-  }, [seasonId]);
+  getSeasonNarrative(seasonId)
+    .then((data) => setSummary(data))
+    .catch(() => setSummary(null));
+}, [seasonId]);
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">

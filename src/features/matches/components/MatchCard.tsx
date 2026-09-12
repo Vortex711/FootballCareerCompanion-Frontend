@@ -1,5 +1,5 @@
-import MatchNarrativeView from "./MatchNarrativeView";
-import type { Match } from "../types/models";
+import MatchNarrativeView from "../../narratives/components/MatchNarrativeView";
+import type { Match } from "../types";
 
 interface MatchCardProps {
   match: Match;

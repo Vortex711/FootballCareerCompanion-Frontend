@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import api from "../api/api";
-import type { Narrative } from "../types/models";
+import { getMatchNarrative } from "../api/narrativesApi";
+import type { Narrative } from "../types";
 
 interface MatchNarrativeViewProps {
   seasonId: string;
@@ -15,12 +15,10 @@ function MatchNarrativeView({
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    api.get<Narrative>(
-      `/v1/seasons/${seasonId}/matches/${matchId}/narrative`
-    )
-      .then((res) => setNarrative(res.data))
-      .catch(() => setNarrative(null));
-  }, [seasonId, matchId]);
+  getMatchNarrative(seasonId, matchId)
+    .then((data) => setNarrative(data))
+    .catch(() => setNarrative(null));
+}, [seasonId, matchId]);
 
   return (
     <div className="mt-5">

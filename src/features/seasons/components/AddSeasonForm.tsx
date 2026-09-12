@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
-import api from "../api/api";
-import type { BoardExpectation } from "../types/models";
+import { createSeason } from "../api/seasonsApi";
+import type { BoardExpectation } from "../types";
 
 interface AddSeasonFormProps {
   careerId: string;
@@ -31,7 +31,7 @@ function AddSeasonForm({
     setLoading(true);
 
     try {
-      await api.post(`/v1/careers/${careerId}/seasons`, {
+      await createSeason(careerId, {
         name,
         startDate: startDate || null,
         expectation,

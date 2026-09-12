@@ -1,5 +1,5 @@
 import { formatBoardExpectation } from "../utils/formatters";
-import type { Season } from "../types/models";
+import type { Season } from "../types";
 
 interface SeasonCardProps {
   season: Season;

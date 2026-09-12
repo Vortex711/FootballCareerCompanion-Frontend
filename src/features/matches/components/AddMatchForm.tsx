@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
-import api from "../api/api";
+import { createMatch } from "../api/matchesApi";
 
-interface GoalEvent {
+interface GoalEventForm {
   playerName: string;
   minute: string;
 }
@@ -25,7 +25,7 @@ function AddMatchForm({
   const [leaguePositionAfter, setLeaguePositionAfter] = useState("");
   const [playedAt, setPlayedAt] = useState("");
 
-  const [goalEvents, setGoalEvents] = useState<GoalEvent[]>([]);
+  const [goalEvents, setGoalEvents] = useState<GoalEventForm[]>([]);
   const [loading, setLoading] = useState(false);
 
   const addGoalEvent = () => {
@@ -40,7 +40,7 @@ function AddMatchForm({
 
   const updateGoalEvent = (
     index: number,
-    field: keyof GoalEvent,
+    field: keyof GoalEventForm,
     value: string
   ) => {
     const updatedGoals = [...goalEvents];
@@ -98,10 +98,7 @@ function AddMatchForm({
         })),
       };
 
-      await api.post(
-        `/v1/seasons/${seasonId}/matches`,
-        request
-      );
+      await createMatch(seasonId, request);
 
       // Reset form
       setCompetitionName("");

@@ -21,11 +21,28 @@ function TwoPanelLayout({
   return (
     <div className="min-h-screen bg-app-bg text-text-primary">
       <div className="mx-auto max-w-7xl px-6 py-8">
-
-        <div className="grid min-h-[calc(100vh-4rem)] grid-cols-1 overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl lg:grid-cols-[380px_1fr]">
-
+        <div
+          className="
+            grid
+            min-h-[calc(100vh-4rem)]
+            overflow-hidden
+            rounded-2xl
+            border border-border
+            bg-surface
+            shadow-2xl
+            lg:grid-cols-[380px_1fr]
+          "
+        >
           {/* LEFT PANEL */}
-          <aside className="border-b border-border bg-surface-light p-6 lg:border-r lg:border-b-0">
+          <aside
+            className="
+              border-b border-border
+              bg-surface-light
+              p-6
+              lg:border-b-0
+              lg:border-r
+            "
+          >
             <div className="mb-8">
               <p className="mb-2 text-xs font-semibold tracking-[0.2em] text-accent">
                 CREATE
@@ -46,7 +63,15 @@ function TwoPanelLayout({
           </aside>
 
           {/* RIGHT PANEL */}
-          <main className="min-w-0 p-6 lg:p-8">
+          <main
+            className="
+              min-w-0
+              p-6
+              lg:max-h-[calc(100vh-4rem)]
+              lg:overflow-y-auto
+              lg:p-8
+            "
+          >
             <div className="mb-8">
               <p className="mb-2 text-xs font-semibold tracking-[0.2em] text-accent">
                 YOUR CAREER
@@ -65,7 +90,6 @@ function TwoPanelLayout({
 
             {rightContent}
           </main>
-
         </div>
       </div>
     </div>

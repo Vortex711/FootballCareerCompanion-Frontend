@@ -1,0 +1,17 @@
+import api from "../../../shared/api/client";
+
+import type {
+  LoginRequest,
+  LoginResponse,
+} from "../types";
+
+export async function login(
+  request: LoginRequest
+): Promise<LoginResponse> {
+  const response = await api.post<LoginResponse>(
+    "/auth/login",
+    request
+  );
+
+  return response.data;
+}

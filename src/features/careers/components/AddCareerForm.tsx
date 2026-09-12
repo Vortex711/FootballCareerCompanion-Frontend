@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import api from "../api/api";
+import { createCareer } from "../api/careersApi";
 
 interface AddCareerFormProps {
   onCareerCreated?: () => void | Promise<void>;
@@ -26,7 +26,7 @@ function AddCareerForm({
     setLoading(true);
 
     try {
-      await api.post("/v1/careers", {
+      await createCareer({
         name,
         clubName,
         managerName,

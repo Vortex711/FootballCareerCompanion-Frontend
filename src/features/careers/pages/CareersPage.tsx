@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import api from "../api/api";
-
-import TwoPanelLayout from "../components/TwoPanelLayout";
+import TwoPanelLayout from "../../../shared/layout/TwoPanelLayout";
 import AddCareerForm from "../components/AddCareerForm";
 import CareerCard from "../components/CareerCard";
 
-import type { Career } from "../types/models";
+import { getCareers } from "../api/careersApi";
+import type { Career } from "../types";
 
 function CareersPage() {
   const [careers, setCareers] = useState<Career[]>([]);
@@ -15,16 +14,15 @@ function CareersPage() {
   const navigate = useNavigate();
 
   const fetchCareers = async (): Promise<void> => {
-    try {
-      const res = await api.get<Career[]>("/v1/careers");
+  try {
+    const careers = await getCareers();
 
-      setCareers(res.data);
-
-    } catch (error) {
-      console.error(error);
-      alert("Failed to fetch careers");
-    }
-  };
+    setCareers(careers);
+  } catch (error) {
+    console.error(error);
+    alert("Failed to fetch careers");
+  }
+};
 
   useEffect(() => {
     fetchCareers();

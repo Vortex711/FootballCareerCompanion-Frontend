@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import api from "../api/api";
+import { getMatches } from "../api/matchesApi";
 
-import TwoPanelLayout from "../components/TwoPanelLayout";
+import TwoPanelLayout from "../../../shared/layout/TwoPanelLayout";
 import AddMatchForm from "../components/AddMatchForm";
 import MatchCard from "../components/MatchCard";
 
-import type { Match } from "../types/models";
+import type { Match } from "../types";
 
 function MatchesPage() {
   const { seasonId } = useParams<{ seasonId: string }>();
@@ -18,12 +18,9 @@ function MatchesPage() {
     if (!seasonId) return;
 
     try {
-      const response = await api.get<Match[]>(
-        `/v1/seasons/${seasonId}/matches`
-      );
+      const matches = await getMatches(seasonId);
 
-      setMatches(response.data);
-
+      setMatches(matches);
     } catch (error) {
       console.error(error);
       alert("Failed to fetch matches");

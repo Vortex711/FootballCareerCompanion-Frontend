@@ -1,4 +1,4 @@
-import type { Career } from "../types/models";
+import type { Career } from "../types";
 
 interface CareerCardProps {
   career: Career;
