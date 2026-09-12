@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import Field from "../../../shared/ui/Field";
+import Input from "../../../shared/ui/Input";
+
 import { login } from "../api/authApi";
+import Button from "../../../shared/ui/Button";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -123,42 +127,18 @@ function LoginPage() {
           <div className="space-y-5">
 
             {/* Email */}
-            <div>
-
-              <label className="mb-2 block text-sm font-medium text-text-primary">
-                Email
-              </label>
-
-              <input
+            <Field label="Email" required>
+              <Input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="
-                  w-full rounded-xl
-                  border border-border
-                  bg-app-bg
-                  px-4 py-3
-                  text-text-primary
-                  outline-none
-                  transition
-                  placeholder:text-text-secondary
-                  focus:border-accent
-                  focus:ring-2
-                  focus:ring-accent/20
-                "
               />
-
-            </div>
+            </Field>
 
             {/* Password */}
-            <div>
-
-              <label className="mb-2 block text-sm font-medium text-text-primary">
-                Password
-              </label>
-
-              <input
+            <Field label="Password" required>
+              <Input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -168,44 +148,19 @@ function LoginPage() {
                     handleLogin();
                   }
                 }}
-                className="
-                  w-full rounded-xl
-                  border border-border
-                  bg-app-bg
-                  px-4 py-3
-                  text-text-primary
-                  outline-none
-                  transition
-                  placeholder:text-text-secondary
-                  focus:border-accent
-                  focus:ring-2
-                  focus:ring-accent/20
-                "
               />
-
-            </div>
+            </Field>
 
             {/* Submit */}
-            <button
-              onClick={handleLogin}
+            <Button
+              type="button"
+              fullWidth
               disabled={loading}
-              className="
-                mt-2 w-full
-                rounded-xl
-                bg-accent
-                px-4 py-3
-                font-bold
-                text-slate-950
-                transition-all duration-200
-                hover:bg-accent-hover
-                hover:shadow-lg
-                hover:shadow-emerald-500/20
-                disabled:cursor-not-allowed
-                disabled:opacity-60
-              "
+              onClick={handleLogin}
+              className="py-3 font-semibold"
             >
-              {loading ? "Signing In..." : "Continue →"}
-            </button>
+              {loading ? "Signing in..." : "Continue →"}
+            </Button>
 
           </div>
 

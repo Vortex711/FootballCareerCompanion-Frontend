@@ -1,5 +1,10 @@
 import { useState, type FormEvent } from "react";
+
 import { createMatch } from "../api/matchesApi";
+
+import Field from "../../../shared/ui/Field";
+import Input from "../../../shared/ui/Input";
+import Button from "../../../shared/ui/Button";
 
 interface GoalEventForm {
   playerName: string;
@@ -100,7 +105,6 @@ function AddMatchForm({
 
       await createMatch(seasonId, request);
 
-      // Reset form
       setCompetitionName("");
       setOpponentName("");
       setIsHome(true);
@@ -111,7 +115,6 @@ function AddMatchForm({
       setGoalEvents([]);
 
       await onMatchAdded();
-
     } catch (error) {
       console.error(error);
       alert("Failed to submit match.");
@@ -124,62 +127,30 @@ function AddMatchForm({
     <form onSubmit={handleSubmit} className="space-y-6">
 
       {/* Competition */}
-      <div>
-        <label className="mb-2 block text-sm font-medium text-slate-300">
-          Competition
-          <span className="ml-1 text-red-400">*</span>
-        </label>
-
-        <input
+      <Field label="Competition" required>
+        <Input
           type="text"
           value={competitionName}
-          onChange={(e) => setCompetitionName(e.target.value)}
-          placeholder="Premier League"
-          className="
-            w-full rounded-xl
-            border border-slate-700
-            bg-slate-900
-            px-4 py-3
-            text-slate-100
-            outline-none
-            transition
-            placeholder:text-slate-500
-            focus:border-emerald-500
-            focus:ring-2
-            focus:ring-emerald-500/20
-          "
+          onChange={(e) =>
+            setCompetitionName(e.target.value)
+          }
+          placeholder="E.g. La Liga"
         />
-      </div>
+      </Field>
 
       {/* Opponent */}
-      <div>
-        <label className="mb-2 block text-sm font-medium text-slate-300">
-          Opponent
-          <span className="ml-1 text-red-400">*</span>
-        </label>
-
-        <input
+      <Field label="Opponent" required>
+        <Input
           type="text"
           value={opponentName}
-          onChange={(e) => setOpponentName(e.target.value)}
-          placeholder="Arsenal"
-          className="
-            w-full rounded-xl
-            border border-slate-700
-            bg-slate-900
-            px-4 py-3
-            text-slate-100
-            outline-none
-            transition
-            placeholder:text-slate-500
-            focus:border-emerald-500
-            focus:ring-2
-            focus:ring-emerald-500/20
-          "
+          onChange={(e) =>
+            setOpponentName(e.target.value)
+          }
+          placeholder="E.g. Real Madrid CF"
         />
-      </div>
+      </Field>
 
-      {/* Location */}
+      {/* Match Location */}
       <div>
         <p className="mb-3 text-sm font-medium text-slate-300">
           Match Location
@@ -200,7 +171,9 @@ function AddMatchForm({
           `}
         >
           <span className="font-medium">
-            {isHome ? "🏠 Home Match" : "✈️ Away Match"}
+            {isHome
+              ? "🏠 Home Match"
+              : "✈️ Away Match"}
           </span>
 
           <span className="text-xs">
@@ -210,12 +183,7 @@ function AddMatchForm({
       </div>
 
       {/* Score */}
-      <div>
-        <p className="mb-3 text-sm font-medium text-slate-300">
-          Score
-          <span className="ml-1 text-red-400">*</span>
-        </p>
-
+      <Field label="Score" required>
         <div className="grid grid-cols-2 gap-3">
 
           <div>
@@ -223,22 +191,16 @@ function AddMatchForm({
               Your Team
             </label>
 
-            <input
+            <Input
               type="number"
               min="0"
               value={teamGoals}
-              onChange={(e) => setTeamGoals(e.target.value)}
+              onChange={(e) =>
+                setTeamGoals(e.target.value)
+              }
               placeholder="0"
               className="
-                w-full rounded-xl
-                border border-slate-700
-                bg-slate-900
-                px-4 py-3
-                text-center text-lg font-bold text-slate-100
-                outline-none
-                focus:border-emerald-500
-                focus:ring-2
-                focus:ring-emerald-500/20
+                text-center text-lg font-bold
               "
             />
           </div>
@@ -248,30 +210,24 @@ function AddMatchForm({
               Opponent
             </label>
 
-            <input
+            <Input
               type="number"
               min="0"
               value={opponentGoals}
-              onChange={(e) => setOpponentGoals(e.target.value)}
+              onChange={(e) =>
+                setOpponentGoals(e.target.value)
+              }
               placeholder="0"
               className="
-                w-full rounded-xl
-                border border-slate-700
-                bg-slate-900
-                px-4 py-3
-                text-center text-lg font-bold text-slate-100
-                outline-none
-                focus:border-emerald-500
-                focus:ring-2
-                focus:ring-emerald-500/20
+                text-center text-lg font-bold
               "
             />
           </div>
 
         </div>
-      </div>
+      </Field>
 
-      {/* Additional details */}
+      {/* Additional Details */}
       <div className="border-t border-slate-800 pt-5">
 
         <p className="mb-4 text-sm font-semibold text-slate-300">
@@ -280,61 +236,32 @@ function AddMatchForm({
 
         <div className="space-y-4">
 
-          <div>
-            <label className="mb-2 block text-sm font-medium text-slate-300">
-              League Position After
-            </label>
-
-            <input
+          <Field label="League Position After">
+            <Input
               type="number"
               min="1"
               value={leaguePositionAfter}
               onChange={(e) =>
                 setLeaguePositionAfter(e.target.value)
               }
-              placeholder="Optional"
-              className="
-                w-full rounded-xl
-                border border-slate-700
-                bg-slate-900
-                px-4 py-3
-                text-slate-100
-                outline-none
-                placeholder:text-slate-500
-                focus:border-emerald-500
-                focus:ring-2
-                focus:ring-emerald-500/20
-              "
+              placeholder="E.g. 1"
             />
-          </div>
+          </Field>
 
-          <div>
-            <label className="mb-2 block text-sm font-medium text-slate-300">
-              Match Date & Time
-            </label>
-
-            <input
+          <Field label="Match Date & Time">
+            <Input
               type="datetime-local"
               value={playedAt}
-              onChange={(e) => setPlayedAt(e.target.value)}
-              className="
-                w-full rounded-xl
-                border border-slate-700
-                bg-slate-900
-                px-4 py-3
-                text-slate-100
-                outline-none
-                focus:border-emerald-500
-                focus:ring-2
-                focus:ring-emerald-500/20
-              "
+              onChange={(e) =>
+                setPlayedAt(e.target.value)
+              }
             />
-          </div>
+          </Field>
 
         </div>
       </div>
 
-      {/* Goals */}
+      {/* Goal Events */}
       <div className="border-t border-slate-800 pt-5">
 
         <div className="flex items-center justify-between">
@@ -349,20 +276,13 @@ function AddMatchForm({
             </p>
           </div>
 
-          <button
+          <Button
             type="button"
+            variant="secondary"
             onClick={addGoalEvent}
-            className="
-              rounded-lg
-              border border-emerald-500/40
-              px-3 py-2
-              text-sm font-medium text-emerald-400
-              transition
-              hover:bg-emerald-500/10
-            "
           >
             + Add Goal
-          </button>
+          </Button>
 
         </div>
 
@@ -376,7 +296,7 @@ function AddMatchForm({
                 className="flex items-center gap-2"
               >
 
-                <input
+                <Input
                   type="text"
                   value={goal.playerName}
                   onChange={(e) =>
@@ -387,20 +307,11 @@ function AddMatchForm({
                     )
                   }
                   placeholder="Player"
-                  className="
-                    min-w-0 flex-1
-                    rounded-lg
-                    border border-slate-700
-                    bg-slate-900
-                    px-3 py-2
-                    text-sm text-slate-100
-                    outline-none
-                    placeholder:text-slate-500
-                    focus:border-emerald-500
-                  "
+                  fullWidth={false}
+                  className="min-w-0 flex-1 px-3 py-2 text-sm"
                 />
 
-                <input
+                <Input
                   type="number"
                   min="1"
                   max="120"
@@ -413,34 +324,19 @@ function AddMatchForm({
                     )
                   }
                   placeholder="Min"
-                  className="
-                    w-20
-                    rounded-lg
-                    border border-slate-700
-                    bg-slate-900
-                    px-3 py-2
-                    text-center text-sm text-slate-100
-                    outline-none
-                    placeholder:text-slate-500
-                    focus:border-emerald-500
-                  "
+                  fullWidth={false}
+                  className="w-20 shrink-0 px-3 py-2 text-center text-sm"
                 />
 
-                <button
+                <Button
                   type="button"
+                  variant="danger"
                   onClick={() => removeGoalEvent(index)}
-                  className="
-                    rounded-lg
-                    px-2 py-2
-                    text-slate-500
-                    transition
-                    hover:bg-red-500/10
-                    hover:text-red-400
-                  "
+                  className="px-2 py-2"
                   title="Remove goal"
                 >
                   ✕
-                </button>
+                </Button>
 
               </div>
 
@@ -452,22 +348,16 @@ function AddMatchForm({
       </div>
 
       {/* Submit */}
-      <button
+      <Button
         type="submit"
+        fullWidth
         disabled={loading}
-        className="
-          w-full rounded-xl
-          bg-emerald-500
-          px-4 py-3
-          font-semibold text-slate-950
-          transition
-          hover:bg-emerald-400
-          disabled:cursor-not-allowed
-          disabled:opacity-50
-        "
+        className="rounded-xl py-3 font-semibold"
       >
-        {loading ? "Submitting Match..." : "Submit Match"}
-      </button>
+        {loading
+          ? "Submitting Match..."
+          : "Submit Match"}
+      </Button>
 
     </form>
   );

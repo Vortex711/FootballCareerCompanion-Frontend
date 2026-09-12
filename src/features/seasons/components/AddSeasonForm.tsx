@@ -1,6 +1,12 @@
 import { useState, type FormEvent } from "react";
+
 import { createSeason } from "../api/seasonsApi";
 import type { BoardExpectation } from "../types";
+
+import Field from "../../../shared/ui/Field";
+import Input from "../../../shared/ui/Input";
+import Select from "../../../shared/ui/Select";
+import Button from "../../../shared/ui/Button";
 
 interface AddSeasonFormProps {
   careerId: string;
@@ -52,90 +58,47 @@ function AddSeasonForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-
-      <div>
-        <label className="mb-2 block text-sm font-medium text-text-primary">
-          Season Name
-        </label>
-
-        <input
+      <Field label="Season Name" required>
+        <Input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="e.g. 2025/26"
-          className="
-            w-full rounded-lg border border-border
-            bg-surface px-4 py-3
-            text-text-primary placeholder:text-text-secondary
-            outline-none transition
-            focus:border-accent focus:ring-1 focus:ring-accent
-          "
+          placeholder="E.g. 2025/26"
         />
-      </div>
+      </Field>
 
-      <div>
-        <label className="mb-2 block text-sm font-medium text-text-primary">
-          Start Date
-          <span className="ml-2 text-xs text-text-secondary">
-            Optional
-          </span>
-        </label>
-
-        <input
+      <Field label="Start Date">
+        <Input
           type="date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
-          className="
-            w-full rounded-lg border border-border
-            bg-surface px-4 py-3
-            text-text-primary
-            outline-none transition
-            focus:border-accent focus:ring-1 focus:ring-accent
-          "
         />
-      </div>
+      </Field>
 
-      <div>
-        <label className="mb-2 block text-sm font-medium text-text-primary">
-          Board Expectation
-        </label>
-
-        <select
+      <Field label="Board Expectation" required>
+        <Select
           value={expectation}
           onChange={(e) =>
             setExpectation(e.target.value as BoardExpectation)
           }
-          className="
-            w-full rounded-lg border border-border
-            bg-surface px-4 py-3
-            text-text-primary
-            outline-none transition
-            focus:border-accent focus:ring-1 focus:ring-accent
-          "
         >
           <option value="Title">Title Challenge</option>
           <option value="Top4">Top 4</option>
           <option value="MidTable">Mid Table</option>
           <option value="Survival">Survival</option>
-        </select>
-      </div>
+        </Select>
+      </Field>
 
-      <button
+      <Button
         type="submit"
+        fullWidth
         disabled={loading}
-        className="
-          w-full rounded-lg bg-accent px-4 py-3
-          font-semibold text-slate-950
-          transition duration-200
-          hover:bg-accent-hover
-          disabled:cursor-not-allowed disabled:opacity-60
-        "
+        className="py-3 font-semibold"
       >
         {loading ? "Adding Season..." : "Add Season"}
-      </button>
-
+      </Button>
     </form>
   );
 }
 
-export default AddSeasonForm;
+export default AddSeasonForm; 

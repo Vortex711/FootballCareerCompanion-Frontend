@@ -1,6 +1,10 @@
 import { useState, type FormEvent } from "react";
 import { createCareer } from "../api/careersApi";
 
+import Field from "../../../shared/ui/Field";
+import Input from "../../../shared/ui/Input";
+import Button from "../../../shared/ui/Button";
+
 interface AddCareerFormProps {
   onCareerCreated?: () => void | Promise<void>;
 }
@@ -48,79 +52,41 @@ function AddCareerForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
 
-      <div>
-        <label className="mb-2 block text-sm font-medium text-text-primary">
-          Career Name
-        </label>
-
-        <input
+      <Field label="Career Name" required>
+        <Input
           type="text"
           value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="e.g. Brighton Rebuild"
-          className="
-            w-full rounded-lg border border-border
-            bg-surface px-4 py-3
-            text-text-primary placeholder:text-text-secondary
-            outline-none transition
-            focus:border-accent focus:ring-1 focus:ring-accent
-          "
+          onChange={(event) => setName(event.target.value)}
+          placeholder="E.g. RM Career"
         />
-      </div>
+      </Field>
 
-      <div>
-        <label className="mb-2 block text-sm font-medium text-text-primary">
-          Club
-        </label>
-
-        <input
+      <Field label="Club Name" required>
+        <Input
           type="text"
           value={clubName}
-          onChange={(e) => setClubName(e.target.value)}
-          placeholder="e.g. Brighton & Hove Albion"
-          className="
-            w-full rounded-lg border border-border
-            bg-surface px-4 py-3
-            text-text-primary placeholder:text-text-secondary
-            outline-none transition
-            focus:border-accent focus:ring-1 focus:ring-accent
-          "
+          onChange={(event) => setClubName(event.target.value)}
+          placeholder="E.g. Real Madrid CF"
         />
-      </div>
+      </Field>
 
-      <div>
-        <label className="mb-2 block text-sm font-medium text-text-primary">
-          Manager
-        </label>
-
-        <input
+      <Field label="Manager Name" required>
+        <Input
           type="text"
           value={managerName}
-          onChange={(e) => setManagerName(e.target.value)}
-          placeholder="e.g. Chinmay Hari"
-          className="
-            w-full rounded-lg border border-border
-            bg-surface px-4 py-3
-            text-text-primary placeholder:text-text-secondary
-            outline-none transition
-            focus:border-accent focus:ring-1 focus:ring-accent
-          "
+          onChange={(event) => setManagerName(event.target.value)}
+          placeholder="E.g. Xabi Alonso"
         />
-      </div>
+      </Field>
 
-      <button
+      <Button
         type="submit"
+        fullWidth
         disabled={loading}
-        className="
-          w-full rounded-lg bg-accent px-4 py-3
-          font-semibold text-slate-950
-          transition duration-200
-          hover:bg-accent-hover
-          disabled:cursor-not-allowed disabled:opacity-60
-        "
+        className="py-3 font-semibold"
       >
         {loading ? "Creating Career..." : "Create Career"}
-      </button>
+      </Button>
 
     </form>
   );
