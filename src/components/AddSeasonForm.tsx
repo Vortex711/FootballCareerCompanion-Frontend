@@ -1,13 +1,26 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import api from "../api/api";
+import type { BoardExpectation } from "../types/models";
 
-function AddSeasonForm({ careerId, onSeasonAdded }) {
+interface AddSeasonFormProps {
+  careerId: string;
+  onSeasonAdded?: () => void | Promise<void>;
+}
+
+function AddSeasonForm({
+  careerId,
+  onSeasonAdded,
+}: AddSeasonFormProps) {
   const [name, setName] = useState("");
   const [startDate, setStartDate] = useState("");
-  const [expectation, setExpectation] = useState("Top4");
+  const [expectation, setExpectation] =
+    useState<BoardExpectation>("Top4");
+
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (
+    e: FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
 
     if (!name) {
@@ -24,15 +37,11 @@ function AddSeasonForm({ careerId, onSeasonAdded }) {
         expectation,
       });
 
-      // Reset form
       setName("");
       setStartDate("");
       setExpectation("Top4");
 
-      // Refresh seasons
-      if (onSeasonAdded) {
-        onSeasonAdded();
-      }
+      await onSeasonAdded?.();
     } catch (error) {
       console.error(error);
       alert("Failed to add season.");
@@ -44,7 +53,6 @@ function AddSeasonForm({ careerId, onSeasonAdded }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
 
-      {/* Season Name */}
       <div>
         <label className="mb-2 block text-sm font-medium text-text-primary">
           Season Name
@@ -65,7 +73,6 @@ function AddSeasonForm({ careerId, onSeasonAdded }) {
         />
       </div>
 
-      {/* Start Date */}
       <div>
         <label className="mb-2 block text-sm font-medium text-text-primary">
           Start Date
@@ -88,7 +95,6 @@ function AddSeasonForm({ careerId, onSeasonAdded }) {
         />
       </div>
 
-      {/* Board Expectation */}
       <div>
         <label className="mb-2 block text-sm font-medium text-text-primary">
           Board Expectation
@@ -96,7 +102,9 @@ function AddSeasonForm({ careerId, onSeasonAdded }) {
 
         <select
           value={expectation}
-          onChange={(e) => setExpectation(e.target.value)}
+          onChange={(e) =>
+            setExpectation(e.target.value as BoardExpectation)
+          }
           className="
             w-full rounded-lg border border-border
             bg-surface px-4 py-3
@@ -112,7 +120,6 @@ function AddSeasonForm({ careerId, onSeasonAdded }) {
         </select>
       </div>
 
-      {/* Submit */}
       <button
         type="submit"
         disabled={loading}

@@ -7,18 +7,23 @@ import TwoPanelLayout from "../components/TwoPanelLayout";
 import AddMatchForm from "../components/AddMatchForm";
 import MatchCard from "../components/MatchCard";
 
+import type { Match } from "../types/models";
+
 function MatchesPage() {
-  const { seasonId } = useParams();
+  const { seasonId } = useParams<{ seasonId: string }>();
 
-  const [matches, setMatches] = useState([]);
+  const [matches, setMatches] = useState<Match[]>([]);
 
-  const fetchMatches = async () => {
+  const fetchMatches = async (): Promise<void> => {
+    if (!seasonId) return;
+
     try {
-      const response = await api.get(
+      const response = await api.get<Match[]>(
         `/v1/seasons/${seasonId}/matches`
       );
 
       setMatches(response.data);
+
     } catch (error) {
       console.error(error);
       alert("Failed to fetch matches");
@@ -28,6 +33,14 @@ function MatchesPage() {
   useEffect(() => {
     fetchMatches();
   }, [seasonId]);
+
+  if (!seasonId) {
+    return (
+      <div className="p-8 text-text-secondary">
+        Invalid season.
+      </div>
+    );
+  }
 
   return (
     <TwoPanelLayout

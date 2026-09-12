@@ -1,4 +1,11 @@
-function CareerCard({ career, onClick }) {
+import type { Career } from "../types/models";
+
+interface CareerCardProps {
+  career: Career;
+  onClick: () => void;
+}
+
+function CareerCard({ career, onClick }: CareerCardProps) {
   return (
     <button
       onClick={onClick}
@@ -12,17 +19,13 @@ function CareerCard({ career, onClick }) {
         hover:shadow-lg hover:shadow-black/20
       "
     >
-      {/* Accent line */}
       <div className="absolute left-0 top-0 h-1 w-full bg-accent opacity-0 transition-opacity group-hover:opacity-100" />
 
-      {/* Header */}
       <div className="flex items-start justify-between">
-        <div
-          className="
-            flex h-11 w-11 items-center justify-center
-            rounded-xl bg-accent/10 text-xl
-          "
-        >
+        <div className="
+          flex h-11 w-11 items-center justify-center
+          rounded-xl bg-accent/10 text-xl
+        ">
           ⚽
         </div>
 
@@ -31,7 +34,6 @@ function CareerCard({ career, onClick }) {
         </span>
       </div>
 
-      {/* Main information */}
       <div className="mt-6">
         <p className="text-xs font-bold tracking-[0.2em] text-accent">
           CAREER
@@ -46,7 +48,6 @@ function CareerCard({ career, onClick }) {
         </p>
       </div>
 
-      {/* Footer */}
       <div className="mt-6 border-t border-border pt-4">
         <p className="text-xs font-semibold tracking-wider text-text-secondary">
           MANAGER

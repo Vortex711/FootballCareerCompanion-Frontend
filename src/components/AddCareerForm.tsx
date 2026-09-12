@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import api from "../api/api";
 
-function AddCareerForm({ onCareerCreated }) {
+interface AddCareerFormProps {
+  onCareerCreated?: () => void | Promise<void>;
+}
+
+function AddCareerForm({
+  onCareerCreated,
+}: AddCareerFormProps) {
   const [name, setName] = useState("");
   const [clubName, setClubName] = useState("");
   const [managerName, setManagerName] = useState("");
-
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (
+    e: FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
 
     if (!name || !clubName || !managerName) {
@@ -25,15 +32,11 @@ function AddCareerForm({ onCareerCreated }) {
         managerName,
       });
 
-      // Clear the form
       setName("");
       setClubName("");
       setManagerName("");
 
-      // Tell CareersPage to refresh
-      if (onCareerCreated) {
-        onCareerCreated();
-      }
+      await onCareerCreated?.();
     } catch (error) {
       console.error(error);
       alert("Failed to create career.");
@@ -44,8 +47,7 @@ function AddCareerForm({ onCareerCreated }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      
-      {/* Career Name */}
+
       <div>
         <label className="mb-2 block text-sm font-medium text-text-primary">
           Career Name
@@ -66,7 +68,6 @@ function AddCareerForm({ onCareerCreated }) {
         />
       </div>
 
-      {/* Club Name */}
       <div>
         <label className="mb-2 block text-sm font-medium text-text-primary">
           Club
@@ -87,7 +88,6 @@ function AddCareerForm({ onCareerCreated }) {
         />
       </div>
 
-      {/* Manager Name */}
       <div>
         <label className="mb-2 block text-sm font-medium text-text-primary">
           Manager
@@ -108,7 +108,6 @@ function AddCareerForm({ onCareerCreated }) {
         />
       </div>
 
-      {/* Submit */}
       <button
         type="submit"
         disabled={loading}

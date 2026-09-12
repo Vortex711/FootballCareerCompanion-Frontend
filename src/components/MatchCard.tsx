@@ -1,6 +1,12 @@
 import MatchNarrativeView from "./MatchNarrativeView";
+import type { Match } from "../types/models";
 
-function MatchCard({ match, seasonId }) {
+interface MatchCardProps {
+  match: Match;
+  seasonId: string;
+}
+
+function MatchCard({ match, seasonId }: MatchCardProps) {
   const homeTeam = match.isHome
     ? match.clubName
     : match.opponentName;
@@ -27,7 +33,6 @@ function MatchCard({ match, seasonId }) {
         hover:bg-surface-hover
       "
     >
-      {/* Competition + Location */}
       <div className="flex items-center justify-between gap-4">
         <span className="text-xs font-bold tracking-[0.15em] text-accent">
           {match.competitionName}
@@ -38,24 +43,18 @@ function MatchCard({ match, seasonId }) {
         </span>
       </div>
 
-      {/* Fixture */}
       <div className="mt-5 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-
-        {/* Home Team */}
         <div className="text-right">
           <p className="text-base font-semibold text-text-primary">
             {homeTeam}
           </p>
         </div>
 
-        {/* Score */}
-        <div
-          className="
-            flex items-center gap-3
-            rounded-xl border border-border
-            bg-app-bg px-4 py-3
-          "
-        >
+        <div className="
+          flex items-center gap-3
+          rounded-xl border border-border
+          bg-app-bg px-4 py-3
+        ">
           <span className="text-2xl font-bold text-text-primary">
             {homeScore}
           </span>
@@ -69,19 +68,15 @@ function MatchCard({ match, seasonId }) {
           </span>
         </div>
 
-        {/* Away Team */}
         <div>
           <p className="text-base font-semibold text-text-primary">
             {awayTeam}
           </p>
         </div>
-
       </div>
 
-      {/* Footer */}
       <div className="mt-5 border-t border-border pt-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
-
           <span className="text-sm text-text-secondary">
             {new Date(match.playedAt).toLocaleString()}
           </span>
@@ -95,18 +90,15 @@ function MatchCard({ match, seasonId }) {
                 </span>
               </span>
             )}
-
         </div>
       </div>
 
-      {/* Narrative */}
       <div className="mt-5">
         <MatchNarrativeView
           matchId={match.id}
           seasonId={seasonId}
         />
       </div>
-
     </div>
   );
 }

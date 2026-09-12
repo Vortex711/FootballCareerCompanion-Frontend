@@ -1,19 +1,25 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import api from "../api/api";
 
 import TwoPanelLayout from "../components/TwoPanelLayout";
 import AddCareerForm from "../components/AddCareerForm";
 import CareerCard from "../components/CareerCard";
 
+import type { Career } from "../types/models";
+
 function CareersPage() {
-  const [careers, setCareers] = useState([]);
+  const [careers, setCareers] = useState<Career[]>([]);
+
   const navigate = useNavigate();
 
-  const fetchCareers = async () => {
+  const fetchCareers = async (): Promise<void> => {
     try {
-      const res = await api.get("/v1/careers");
+      const res = await api.get<Career[]>("/v1/careers");
+
       setCareers(res.data);
+
     } catch (error) {
       console.error(error);
       alert("Failed to fetch careers");
@@ -29,7 +35,9 @@ function CareersPage() {
       leftTitle="Add Career"
       leftSubtitle="Start a new football journey and build your own story."
       leftContent={
-        <AddCareerForm onCareerCreated={fetchCareers} />
+        <AddCareerForm
+          onCareerCreated={fetchCareers}
+        />
       }
       rightTitle="My Careers"
       rightSubtitle="Your football careers and the stories behind them."
@@ -51,7 +59,9 @@ function CareersPage() {
                 key={career.id}
                 career={career}
                 onClick={() =>
-                  navigate(`/careers/${career.id}/seasons`)
+                  navigate(
+                    `/careers/${career.id}/seasons`
+                  )
                 }
               />
             ))}

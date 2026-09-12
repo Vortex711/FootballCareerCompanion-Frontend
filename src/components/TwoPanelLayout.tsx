@@ -1,3 +1,15 @@
+import type { ReactNode } from "react";
+
+interface TwoPanelLayoutProps {
+  leftTitle: string;
+  leftSubtitle?: string;
+  leftContent: ReactNode;
+
+  rightTitle: string;
+  rightSubtitle?: string;
+  rightContent: ReactNode;
+}
+
 function TwoPanelLayout({
   leftTitle,
   leftSubtitle,
@@ -5,7 +17,7 @@ function TwoPanelLayout({
   rightTitle,
   rightSubtitle,
   rightContent,
-}) {
+}: TwoPanelLayoutProps) {
   return (
     <div className="min-h-screen bg-app-bg text-text-primary">
       <div className="mx-auto max-w-7xl px-6 py-8">
@@ -33,10 +45,8 @@ function TwoPanelLayout({
             {leftContent}
           </aside>
 
-
           {/* RIGHT PANEL */}
           <main className="min-w-0 p-6 lg:p-8">
-
             <div className="mb-8">
               <p className="mb-2 text-xs font-semibold tracking-[0.2em] text-accent">
                 YOUR CAREER
@@ -54,7 +64,6 @@ function TwoPanelLayout({
             </div>
 
             {rightContent}
-
           </main>
 
         </div>

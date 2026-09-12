@@ -1,12 +1,21 @@
 import { useEffect, useState } from "react";
 import api from "../api/api";
+import type { Narrative } from "../types/models";
 
-function MatchNarrativeView({ seasonId, matchId }) {
-  const [narrative, setNarrative] = useState(null);
+interface MatchNarrativeViewProps {
+  seasonId: string;
+  matchId: string;
+}
+
+function MatchNarrativeView({
+  seasonId,
+  matchId,
+}: MatchNarrativeViewProps) {
+  const [narrative, setNarrative] = useState<Narrative | null>(null);
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    api.get(
+    api.get<Narrative>(
       `/v1/seasons/${seasonId}/matches/${matchId}/narrative`
     )
       .then((res) => setNarrative(res.data))
@@ -39,15 +48,13 @@ function MatchNarrativeView({ seasonId, matchId }) {
       </button>
 
       {show && (
-        <div
-          className="
-            mt-4 rounded-xl
-            border border-slate-700/70
-            bg-slate-900/60
-            p-5
-          "
-        >
-          {narrative && narrative.narrative ? (
+        <div className="
+          mt-4 rounded-xl
+          border border-slate-700/70
+          bg-slate-900/60
+          p-5
+        ">
+          {narrative?.narrative ? (
             <>
               <div className="mb-4 flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-emerald-400" />

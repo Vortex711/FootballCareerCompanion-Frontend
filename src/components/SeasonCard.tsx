@@ -1,4 +1,13 @@
 import { formatBoardExpectation } from "../utils/formatters";
+import type { Season } from "../types/models";
+
+interface SeasonCardProps {
+  season: Season;
+  onViewMatches: () => void;
+  onGenerateSummary: () => void;
+  onEndSeason: () => void;
+  generating: boolean;
+}
 
 function SeasonCard({
   season,
@@ -6,8 +15,8 @@ function SeasonCard({
   onGenerateSummary,
   onEndSeason,
   generating,
-}) {
-  const formatDate = (date) => {
+}: SeasonCardProps) {
+  const formatDate = (date: string | null): string | null => {
     if (!date) return null;
 
     return new Date(date).toLocaleDateString();
@@ -27,7 +36,6 @@ function SeasonCard({
         hover:shadow-lg hover:shadow-emerald-950/20
       "
     >
-      {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="mb-1 text-xs font-bold tracking-[0.2em] text-emerald-400">
@@ -50,9 +58,7 @@ function SeasonCard({
         </span>
       </div>
 
-      {/* Details */}
       <div className="mt-5 grid grid-cols-1 gap-4 border-t border-slate-700/70 pt-5 sm:grid-cols-3">
-        
         <div>
           <p className="text-xs font-semibold tracking-wider text-slate-400">
             BOARD EXPECTATION
@@ -92,7 +98,6 @@ function SeasonCard({
         </div>
       </div>
 
-      {/* Actions */}
       <div className="mt-5 flex flex-wrap gap-3">
         <button
           onClick={onViewMatches}

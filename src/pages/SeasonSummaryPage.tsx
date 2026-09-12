@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+
 import api from "../api/api";
 import BackButton from "../components/BackButton";
 
-function SeasonSummaryPage() {
-  const { seasonId } = useParams();
+import type { Narrative } from "../types/models";
 
-  const [summary, setSummary] = useState(null);
+function SeasonSummaryPage() {
+  const { seasonId } = useParams<{ seasonId: string }>();
+
+  const [summary, setSummary] = useState<Narrative | null>(null);
 
   useEffect(() => {
-    api.get(`/v1/seasons/${seasonId}/narrative`)
+    if (!seasonId) return;
+
+    api
+      .get<Narrative>(`/v1/seasons/${seasonId}/narrative`)
       .then((res) => setSummary(res.data))
       .catch(() => setSummary(null));
   }, [seasonId]);
@@ -41,7 +47,7 @@ function SeasonSummaryPage() {
         {/* Article */}
         <main className="py-10">
 
-          {summary && summary.narrative ? (
+          {summary?.narrative ? (
 
             <article
               className="

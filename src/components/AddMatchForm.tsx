@@ -1,7 +1,20 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import api from "../api/api";
 
-function AddMatchForm({ seasonId, onMatchAdded }) {
+interface GoalEvent {
+  playerName: string;
+  minute: string;
+}
+
+interface AddMatchFormProps {
+  seasonId: string;
+  onMatchAdded: () => void | Promise<void>;
+}
+
+function AddMatchForm({
+  seasonId,
+  onMatchAdded,
+}: AddMatchFormProps) {
   const [competitionName, setCompetitionName] = useState("");
   const [opponentName, setOpponentName] = useState("");
   const [isHome, setIsHome] = useState(true);
@@ -12,7 +25,7 @@ function AddMatchForm({ seasonId, onMatchAdded }) {
   const [leaguePositionAfter, setLeaguePositionAfter] = useState("");
   const [playedAt, setPlayedAt] = useState("");
 
-  const [goalEvents, setGoalEvents] = useState([]);
+  const [goalEvents, setGoalEvents] = useState<GoalEvent[]>([]);
   const [loading, setLoading] = useState(false);
 
   const addGoalEvent = () => {
@@ -25,19 +38,30 @@ function AddMatchForm({ seasonId, onMatchAdded }) {
     ]);
   };
 
-  const updateGoalEvent = (index, field, value) => {
+  const updateGoalEvent = (
+    index: number,
+    field: keyof GoalEvent,
+    value: string
+  ) => {
     const updatedGoals = [...goalEvents];
 
-    updatedGoals[index][field] = value;
+    updatedGoals[index] = {
+      ...updatedGoals[index],
+      [field]: value,
+    };
 
     setGoalEvents(updatedGoals);
   };
 
-  const removeGoalEvent = (index) => {
-    setGoalEvents(goalEvents.filter((_, i) => i !== index));
+  const removeGoalEvent = (index: number) => {
+    setGoalEvents(
+      goalEvents.filter((_, i) => i !== index)
+    );
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (
+    e: FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
 
     if (!competitionName || !opponentName) {

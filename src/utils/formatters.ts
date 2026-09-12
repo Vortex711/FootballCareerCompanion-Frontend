@@ -1,5 +1,5 @@
-export const formatBoardExpectation = (value) => {
-  const map = {
+export const formatBoardExpectation = (value: string): string => {
+  const map: Record<string, string> = {
     Title: "Title Challenge",
     Top4: "Top 4",
     MidTable: "Mid Table",

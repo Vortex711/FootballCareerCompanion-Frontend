@@ -1,26 +1,33 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
 import api from "../api/api";
 
 import AddSeasonForm from "../components/AddSeasonForm";
 import SeasonCard from "../components/SeasonCard";
 
-function SeasonsPage() {
-  const { careerId } = useParams();
+import type { Season } from "../types/models";
 
-  const [seasons, setSeasons] = useState([]);
+function SeasonsPage() {
+  const { careerId } = useParams<{ careerId: string }>();
+
+  const [seasons, setSeasons] = useState<Season[]>([]);
   const [generating, setGenerating] = useState(false);
 
   const navigate = useNavigate();
 
-  const fetchSeasons = async () => {
+  const fetchSeasons = async (): Promise<void> => {
+    if (!careerId) return;
+
     try {
-      const response = await api.get(
+      const response = await api.get<Season[]>(
         `/v1/careers/${careerId}/seasons`
       );
 
       setSeasons(response.data);
-    } catch {
+
+    } catch (error) {
+      console.error(error);
       alert("Failed to fetch seasons");
     }
   };
@@ -29,7 +36,9 @@ function SeasonsPage() {
     fetchSeasons();
   }, [careerId]);
 
-  const generateSummary = async (seasonId) => {
+  const generateSummary = async (
+    seasonId: string
+  ): Promise<void> => {
     if (generating) return;
 
     setGenerating(true);
@@ -40,24 +49,39 @@ function SeasonsPage() {
       );
 
       navigate(`/seasons/${seasonId}/summary`);
-    } catch {
+
+    } catch (error) {
+      console.error(error);
       alert("Failed to generate summary");
+
     } finally {
       setGenerating(false);
     }
   };
 
-  const endSeason = async (seasonId) => {
+  const endSeason = async (
+    seasonId: string
+  ): Promise<void> => {
     try {
       await api.post(
         `/v1/seasons/${seasonId}/end`
       );
 
       await fetchSeasons();
-    } catch {
+
+    } catch (error) {
+      console.error(error);
       alert("Failed to end season");
     }
   };
+
+  if (!careerId) {
+    return (
+      <div className="p-8 text-text-secondary">
+        Invalid career.
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
@@ -90,6 +114,7 @@ function SeasonsPage() {
 
           {seasons.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-slate-700 p-10 text-center">
+
               <p className="text-lg text-slate-400">
                 No seasons yet.
               </p>
@@ -97,9 +122,13 @@ function SeasonsPage() {
               <p className="mt-2 text-sm text-slate-500">
                 Start a new chapter in your career.
               </p>
+
             </div>
+
           ) : (
+
             <div className="grid gap-5">
+
               {seasons.map((season) => (
                 <SeasonCard
                   key={season.id}
@@ -116,7 +145,9 @@ function SeasonsPage() {
                   }
                 />
               ))}
+
             </div>
+
           )}
 
         </main>
