@@ -5,6 +5,7 @@ import BackButton from "../../../shared/navigation/BackButton";
 
 import { getSeasonNarrative } from "../api/narrativesApi";
 import type { Narrative } from "../types";
+import EmptyState from "../../../shared/ui/EmptyState";
 
 function SeasonSummaryPage() {
   const { seasonId } = useParams<{ seasonId: string }>();
@@ -111,21 +112,10 @@ function SeasonSummaryPage() {
 
           ) : (
 
-            <div
-              className="
-                rounded-2xl
-                border border-dashed border-slate-700
-                p-12 text-center
-              "
-            >
-              <p className="text-lg font-medium text-slate-400">
-                Summary unavailable
-              </p>
-
-              <p className="mt-2 text-sm text-slate-500">
-                A season narrative has not been generated yet.
-              </p>
-            </div>
+            <EmptyState
+              title="Summary unavailable"
+              description="A season narrative has not been generated yet."
+            />
 
           )}
 

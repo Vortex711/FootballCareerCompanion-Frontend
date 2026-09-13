@@ -8,6 +8,7 @@ import AddMatchForm from "../components/AddMatchForm";
 import MatchCard from "../components/MatchCard";
 
 import type { Match } from "../types";
+import EmptyState from "../../../shared/ui/EmptyState";
 
 function MatchesPage() {
   const { seasonId } = useParams<{ seasonId: string }>();
@@ -53,15 +54,10 @@ function MatchesPage() {
       rightSubtitle="Every result becomes part of your story."
       rightContent={
         matches.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-border p-10 text-center">
-            <p className="text-text-secondary">
-              No matches recorded yet.
-            </p>
-
-            <p className="mt-2 text-sm text-text-secondary">
-              Add your first match to begin the season.
-            </p>
-          </div>
+          <EmptyState
+            title="No matches recorded yet."
+            description="Add your first match to begin the season."
+          />
         ) : (
           <div className="space-y-5">
             {matches.map((match) => (

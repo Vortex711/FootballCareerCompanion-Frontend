@@ -7,6 +7,7 @@ import CareerCard from "../components/CareerCard";
 
 import { getCareers } from "../api/careersApi";
 import type { Career } from "../types";
+import EmptyState from "../../../shared/ui/EmptyState";
 
 function CareersPage() {
   const [careers, setCareers] = useState<Career[]>([]);
@@ -41,15 +42,10 @@ function CareersPage() {
       rightSubtitle="Your football careers and the stories behind them."
       rightContent={
         careers.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-border p-10 text-center">
-            <p className="text-text-secondary">
-              No careers yet.
-            </p>
-
-            <p className="mt-2 text-sm text-text-secondary">
-              Add your first career to begin your journey.
-            </p>
-          </div>
+          <EmptyState
+            title="No careers yet."
+            description="Add your first career to begin your journey."
+          />
         ) : (
           <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {careers.map((career) => (

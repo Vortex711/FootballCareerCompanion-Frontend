@@ -1,5 +1,6 @@
 import { formatBoardExpectation } from "../utils/formatters";
 import type { Season } from "../types";
+import Button from "../../../shared/ui/Button";
 
 interface SeasonCardProps {
   season: Season;
@@ -99,51 +100,35 @@ function SeasonCard({
       </div>
 
       <div className="mt-5 flex flex-wrap gap-3">
-        <button
+        <Button
+          type="button"
+          variant="neutral"
           onClick={onViewMatches}
-          className="
-            rounded-lg border border-slate-600
-            bg-slate-700/50
-            px-4 py-2
-            font-medium text-slate-200
-            transition
-            hover:bg-slate-700
-          "
         >
           View Matches →
-        </button>
+        </Button>
 
-        <button
+        <Button
+          type="button"
           onClick={onGenerateSummary}
           disabled={generating}
-          className="
-            rounded-lg
-            bg-emerald-500
-            px-4 py-2
-            font-semibold text-slate-950
-            transition
-            hover:bg-emerald-400
-            disabled:cursor-not-allowed
-            disabled:opacity-50
-          "
+          className="font-semibold"
         >
           {generating ? "Generating..." : "Generate Summary"}
-        </button>
+        </Button>
 
         {isOngoing && (
-          <button
+          <Button
+            type="button"
+            variant="danger"
             onClick={onEndSeason}
             className="
-              rounded-lg
               border border-red-500/40
               px-4 py-2
-              font-medium text-red-400
-              transition
-              hover:bg-red-500/10
             "
           >
             End Season
-          </button>
+          </Button>
         )}
       </div>
     </div>

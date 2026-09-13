@@ -12,6 +12,7 @@ import AddSeasonForm from "../components/AddSeasonForm";
 import SeasonCard from "../components/SeasonCard";
 
 import type { Season } from "../types";
+import EmptyState from "../../../shared/ui/EmptyState";
 
 function SeasonsPage() {
   const { careerId } = useParams<{ careerId: string }>();
@@ -92,15 +93,10 @@ function SeasonsPage() {
       rightSubtitle="Every season tells a different story."
       rightContent={
         seasons.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-border p-10 text-center">
-            <p className="text-text-secondary">
-              No seasons yet.
-            </p>
-
-            <p className="mt-2 text-sm text-text-secondary">
-              Start a new chapter in your career.
-            </p>
-          </div>
+          <EmptyState
+            title="No seasons yet."
+            description="Start a new chapter in your career."
+          />
         ) : (
           <div className="space-y-5">
             {seasons.map((season) => (

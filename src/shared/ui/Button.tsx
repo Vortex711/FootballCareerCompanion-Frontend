@@ -2,7 +2,7 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "ghost" | "danger";
+  variant?: "primary" | "secondary" | "ghost" | "danger" | "neutral";
   fullWidth?: boolean;
   children: ReactNode;
 }
@@ -36,6 +36,13 @@ function Button({
     danger: `
       text-red-400
       hover:bg-red-500/10
+    `,
+
+    neutral: `
+      border border-slate-600
+      bg-slate-700/50
+      text-slate-200
+      hover:bg-slate-700
     `,
   };
 
